@@ -141,7 +141,8 @@ def monthly_activity_report():
 
 celery_app.conf.beat_schedule = {
     'daily-reminder-every-evening': {
-        'task': 'tasks.daily_reminder',
+        'task': 'backend.extensions.daily_reminder',
+        'task': 'backend.extensions.monthly_activity_report',
         'schedule': crontab(hour=18, minute=0), 
     },
     'monthly-report-first-day': {
