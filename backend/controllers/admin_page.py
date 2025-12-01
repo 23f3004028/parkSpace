@@ -173,7 +173,7 @@ def delete_spot():
         data = request.get_json()
         conn = conn_database()
         curr = conn.cursor()
-        curr.execute('DELETE FROM PARKING_SPOT WHERE spot_number = ? AND lot_id = ?', (data['spot_id'],))
+        curr.execute('DELETE FROM PARKING_SPOT WHERE spot_number = ? AND lot_id = ?',(data['spot_id'], data['lot_id']))
         curr.execute('UPDATE PARKING_LOT SET max_no_of_spots= max_no_of_spots - 1, no_of_available=no_of_available-1 WHERE id = ?',(data['lot_id'],))
 
         conn.commit()
@@ -234,7 +234,6 @@ def admin_search_data():
 
 @admin_view.route('/api/admin/summary', methods=['GET'])
 @admin_required
-@cache.cached(timeout=60, key_prefix='admin_summary')
 def admin_summary_data():
     try:
         conn = conn_database()
