@@ -56,7 +56,6 @@
           </thead>
           <tbody>
             <tr v-for="lot in filteredLots" :key="lot.id">
-              
               <td>{{ lot.prime_location }}</td>
               <td>{{ lot.address }}</td>
               <td>{{ lot.no_of_available }}</td>
@@ -68,7 +67,6 @@
           </tbody>
         </table>
       </div>
-
 
       <div v-if="showBookModal" class="modal-overlay">
         <div class="modal-content">
@@ -88,9 +86,9 @@
       <div v-if="showReleaseModal" class="modal-overlay">
         <div class="modal-content">
           <h3>Release Spot</h3>
-          <div class="mb-2"><label>Location:</label> {{ releaseItem.prime_location }}</div>
-          <div class="mb-2"><label>Booked At:</label> {{ formatDate(releaseItem.timestamp_booked) }}</div>
-          <div class="mb-2"><label>Rate:</label> ₹{{ releaseItem.hourly_rate }}/hr</div>
+          <div class="mb-2"><label>Location:</label> {{ releaseItem.pl }}</div>
+          <div class="mb-2"><label>Booked At:</label> {{ formatDate(releaseItem.tb) }}</div>
+          <div class="mb-2"><label>Rate:</label> ₹{{ releaseItem.price }}/hr</div>
           <div class="mb-2 text-danger fw-bold"><label>Est. Cost:</label> ₹{{ calculateCost(releaseItem) }}</div>
           
           <div class="d-flex gap-2 mt-3">
@@ -112,7 +110,7 @@ export default {
   data() {
     return {
       lots: [],
-      history: [],
+      history: [], 
       searchQuery: '',
       
       showBookModal: false,
@@ -143,13 +141,14 @@ export default {
         this.lots = res.data.lots;
         this.history = res.data.history;
       } catch (e) {
-        if(e.response && e.response.status === 401) 
-        alert("Session Expired. Please Login.");
-        this.$router.push('/login');
-
+        if(e.response && e.response.status === 401) {
+          alert("Session Expired. Please Login.");
+          this.$router.push('/login');
+        }
       }
     },
     formatDate(ts) {
+      if (!ts) return '';
       return new Date(ts * 1000).toLocaleString();
     },
     openBookModal(lot) {
@@ -174,21 +173,26 @@ export default {
       this.showReleaseModal = true;
     },
     calculateCost(item) {
+      if (!item.tb) return 0;
       const now = Math.floor(Date.now() / 1000);
-      const hours = (now - item.timestamp_booked) / 3600;
-      return (hours * item.hourly_rate).toFixed(2);
+      const hours = (now - item.tb) / 3600;
+      return (hours * item.price).toFixed(2);
     },
     async confirmRelease() {
       try {
-        const res = await this.$axios.post('/api/user/release', {
+
+        await this.$axios.post('/api/user/release', {
           booking_id: this.releaseItem.id,
-          lot_id: this.releaseItem.lot_id,
-          spot_number: this.releaseItem.spot_number
+          lot_id: this.releaseItem.li,     
+          spot_number: this.releaseItem.sn 
         });
-        alert(res.data.message);
+        alert("Spot Released Successfully");
         this.showReleaseModal = false;
         this.fetchData();
-      } catch (e) { alert("Release Failed"); }
+      } catch (e) { 
+        alert("Release Failed"); 
+        console.error(e);
+      }
     }
   }
 }
@@ -201,5 +205,8 @@ export default {
 }
 .modal-content {
   background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 400px;
+}
+.table-container {
+  overflow-x: auto;
 }
 </style>

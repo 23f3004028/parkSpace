@@ -119,7 +119,8 @@ def user_summary():
     curr = conn.cursor()
 
     curr.execute("SELECT * FROM USERS WHERE id=?", (session['id'],))
-    user = curr.fetchone()
+    user_row = curr.fetchone()
+    user = dict(user_row) if user_row else None
 
     stats = {}
     curr.execute("SELECT COUNT(*) FROM BOOKING_DETAILS WHERE user_id=?", (user_id,))
@@ -137,9 +138,10 @@ def user_summary():
                     WHERE B.user_id=?
                     ORDER BY B.timestamp_booked DESC 
                     LIMIT 10''', (session['id'],))
-    recent_bookings = curr.fetchall()
+    recent_bookings_rows = curr.fetchall()
+    recent_bookings = [dict(row) for row in recent_bookings_rows]
 
-    return jsonify({"user": user, "stats": stats}), 200
+    return jsonify({"user": user, "stats": stats, "recent_bookings": recent_bookings}), 200
 
 
 @user_view.route('/api/user/profile', methods=['GET', 'POST'])
