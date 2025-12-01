@@ -115,7 +115,6 @@ def release_spot():
 
 @user_view.route('/api/user/summary', methods=['GET'])
 @login_required
-@cache.cached(timeout=300, key_prefix='user_summary')
 def user_summary():
 
     user_id = session['id']
@@ -161,6 +160,8 @@ def user_profile():
 
     if request.method == 'POST':
         data = request.get_json()
+        conn = conn_database()
+        curr = conn.cursor()
         curr.execute('UPDATE USERS SET name=?, address=?, pincode=? WHERE id=?', 
                      (data['name'], data['address'], data['pincode'], session['id']))
         conn.commit()
