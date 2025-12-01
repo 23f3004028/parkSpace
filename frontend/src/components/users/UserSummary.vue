@@ -28,7 +28,7 @@
           <div class="card shadow-sm border-success">
             <div class="card-body">
               <h5 class="text-success">Total Spent</h5>
-              <h3>₹{{ stats.spent.toFixed(2) }}</h3>
+              <h3>₹{{ (stats.spent ?? 0).toFixed(2) }}</h3>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="booking in recent_bookings" :key="booking.booking_id">
+                    <tr v-for="booking in recent_bookings" :key="booking.id">
                       <td>{{ booking.id }}</td> 
                       <td>Lot #{{ booking.lot_id }}</td> 
                       <td>{{ booking.spot_number }}</td>
@@ -64,7 +64,10 @@
                         </span>
                       </td>
                       
-                      <td>₹{{ booking.price.toFixed(2) }}</td> 
+                      <td>
+                        <span v-if="booking.price != null">₹{{ booking.price.toFixed(2) }}</span>
+                        <span v-else>-</span>
+                      </td>
                       
                       <td>{{formatDate(booking.timestamp_booked) }}</td>
                     </tr>
@@ -89,8 +92,8 @@ export default {
   data() { 
     return { 
       user: {}, 
-      stats: {},
-      recent_bookings: [] 
+      stats: { total: 0, active: 0, spent: 0 }, 
+    recent_bookings: [] 
     } 
   },
   async created() {
