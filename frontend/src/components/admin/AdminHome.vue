@@ -158,6 +158,7 @@ export default {
             const formData = new FormData();
             Object.keys(this.newLot).forEach(key => formData.append(key, this.newLot[key]));
             await this.$axios.post('/api/admin/lot/create', formData);
+            await new Promise(resolve => setTimeout(resolve, 100));
             alert("Lot Created");
             this.newLot = { prime_location: '', address: '', pincode: '', price: '', max_no_of_spots: '' };
             const modalCheckbox = document.getElementById('create-modal');

@@ -2,6 +2,8 @@ from flask import Blueprint,session,request,jsonify
 from .__init__ import conn_database
 from functools import wraps
 from datetime import datetime
+from ..extensions import cache
+from ..tasks import export_user_history_csv 
 
 user_view = Blueprint('user',__name__)
 
@@ -105,6 +107,7 @@ def release_spot():
     
     conn.commit()
     conn.close()
+    cache.delete_memoized(user_home) 
     return jsonify({"message": f"Spot Released. Total Cost: ₹{total_cost}"}), 200
 
 
@@ -112,6 +115,7 @@ def release_spot():
 
 @user_view.route('/api/user/summary', methods=['GET'])
 @login_required
+@cache.cached(timeout=300, key_prefix='user_summary')
 def user_summary():
 
     user_id = session['id']
@@ -161,6 +165,7 @@ def user_profile():
                      (data['name'], data['address'], data['pincode'], session['id']))
         conn.commit()
         conn.close()
+        cache.delete_memoized(user_summary)
         return jsonify({"message": "Profile Updated"}), 200
     return jsonify(user), 200
 
@@ -171,3 +176,15 @@ def user_logout():
     session.clear()
     return jsonify({"message": "Logged out",}), 200
     
+@user_view.route('/api/user/export', methods=['GET'])
+@login_required
+def trigger_export():
+    try:
+        user_id = session['id']
+        user_email = session['email']
+        export_user_history_csv.delay(user_id, user_email)
+        
+        return jsonify({"message": "Export initiated. Check your email shortly."}), 202 # 202 Accepted
+    except Exception as e:
+        print(f"Export Trigger Error: {e}")
+        return jsonify({"message": "Failed to start export job."}), 500

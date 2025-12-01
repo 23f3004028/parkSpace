@@ -4,7 +4,15 @@
     <div class="container mt-4">
       
       <div v-if="history.length > 0">
-        <div class="header">Recent Parking History</div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="header mb-0">Recent Parking History</h4>
+            <button @click="triggerExport" class="btn btn-warning btn-sm">
+                Export History (CSV)
+            </button>
+        </div>
+
+
         <div class="table-container">
           <table class="table table-bordered table-striped text-center">
             <thead class="table-dark">
@@ -193,6 +201,14 @@ export default {
         alert("Release Failed"); 
         console.error(e);
       }
+    },
+    async triggerExport() {
+        try {
+            const res = await this.$axios.get('/api/user/export');
+            alert(res.data.message); // Should say "Export initiated..."
+        } catch (e) {
+            alert("Failed to start export job.");
+        }
     }
   }
 }

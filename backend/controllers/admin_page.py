@@ -4,6 +4,7 @@ from flask import jsonify
 from .__init__ import conn_database
 import sqlite3
 from datetime import datetime
+from ..extensions import cache
 
 
 
@@ -134,6 +135,7 @@ def update_lot():
                 curr.execute('INSERT INTO PARKING_SPOT (lot_id,spot_number,status) VALUES (?,?,?)',(lot_id,spot_name,'A'))
             conn.commit()
             conn.close()
+            cache.delete_memoized(admin_home)
             return jsonify({"message": "Lot Updated"}), 200
     except Exception as e:
         return jsonify({"message": str(e)}), 500
@@ -154,6 +156,7 @@ def delete_lot():
             curr.execute('DELETE FROM PARKING_LOT WHERE id=?',(lot_id,))
             conn.commit()
             conn.close()
+            cache.delete_memoized(admin_home)
             return jsonify({"message": "Lot Deleted"}), 200
         else:
             conn.close()
@@ -175,6 +178,7 @@ def delete_spot():
 
         conn.commit()
         conn.close()
+        cache.delete_memoized(admin_home)
         return jsonify({"message": "Spot Deleted"}), 200
     except Exception as e:
         return jsonify({"message": str(e)}), 500
@@ -230,6 +234,7 @@ def admin_search_data():
 
 @admin_view.route('/api/admin/summary', methods=['GET'])
 @admin_required
+@cache.cached(timeout=60, key_prefix='admin_summary')
 def admin_summary_data():
     try:
         conn = conn_database()
@@ -304,6 +309,8 @@ def admin_profile():
                         (data['email'], data['name'], data['address'], data['pincode'], session['id']))
             conn.commit()
             conn.close()
+            cache.delete_memoized(admin_summary_data)
+            cache.delete_memoized(admin_home)
             return jsonify({"message": "Profile Updated Successfully"}), 200
         
         return jsonify(admin), 200
