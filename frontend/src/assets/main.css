@@ -1,0 +1,342 @@
+body {
+    font-family: 'Montserrat', sans-serif; 
+}
+.navbar-custom {
+    background-color: #28f17c;  
+}
+.modal-toggle {
+    display: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-toggle:checked + .modal {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px; 
+    border-color:grey;
+    border-width: 3.5px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    width: fit-content;
+    min-width: 300px;
+    text-align: left;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+}
+.your-table {
+  table-layout: auto;  
+  width: auto;         }
+.modal-heading {
+    background-color: #ffeb99;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+
+
+.booking-form-horizontal .form-row {
+  display: flex;        
+  align-items: center;   
+  margin-bottom: 15px;
+  flex-wrap: nowrap;     
+}
+
+.booking-form-horizontal .form-row label {
+  width: 140px;          
+  text-align: right;     
+  margin-right: 1rem;    
+  font-weight: bold;     
+  white-space: nowrap;   
+  color: black;
+  flex: 0 0 auto;
+}
+
+.booking-form-horizontal .form-row input {
+  flex: 1;       
+  min-width: 0;  
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  color: #b30000;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: centre;
+    gap: 1rem;
+    margin-top: 25px;
+    background-color: #e6f0ff;
+    padding: 12px;
+    border-radius: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-wide {
+    flex: 1;
+    background-color: #add8e6;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    min-width: 120px;
+}
+
+.cancel-btn {
+    display: inline-block;
+}
+
+
+.lot-box {
+    border: 2px solid #1b73e8;
+    border-radius: 12px;
+    padding: 15px;
+    width: 300px;
+    display: inline-block;
+    margin: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.lot-box h2 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.lot-actions {
+    text-align: center;
+    color: orange;
+    font-weight: bold;
+}
+
+.occupancy {
+    text-align: center;
+    color: green;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.spot-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    justify-items: center;
+}
+
+.spot {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #1b73e8;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 28px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.available {
+    background-color: #c1f0c1;
+    color: #007b00;
+}
+
+.occupied {
+    background-color: #ffc0c0;
+    color: #b30000;
+}
+
+.spot_details {
+    flex: 2;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    color: #0062b3;
+}
+
+.available {
+    background-color: #c1f0c1;
+    color: #007b00;
+}
+
+
+
+.header {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.62rem;
+    color: #0c2d9b;
+
+    border: 3px double #007bff;
+    border-radius: 15px;
+    font-weight: bold;
+
+    padding: 15px 30px;
+    text-align: center;
+    width: 100%;
+    margin: 20px auto;
+
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.line-break {
+    border: none;
+    border-top: 2px solid rgb(0, 0, 0);
+    margin: 10px 0;
+    width: 100%;
+}
+
+.table-container {
+    border: 2px solid #007bff;
+    border-radius: 12px;
+    padding: 10px;
+    width: fit-content;
+    margin: 20px auto;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: auto;
+}
+
+.styled-table th,
+.styled-table td {
+    border-right: 2px solid #007bff;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+.styled-table th {
+    color: green;
+    font-weight: bold;
+}
+
+.styled-table td {
+    color: black;
+}
+
+.styled-table th:last-child,
+.styled-table td:last-child {
+    border-right: none; 
+}
+
+.book-btn {
+    background-color: #8ecaff;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+}
+
+.book-btn:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary-book {
+    background-color: #00ccff;
+    color: rgb(0, 0, 0);
+    border: 2px solid #000000;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary-book:hover {
+    background-color: #00c3ff;
+    color: white;
+}
+.btn-primary-parked {
+    background-color: #00ff62;  
+    color: rgb(0, 0, 0);
+    border: 2px solid #000000;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary-parked:hover {
+    background-color: #cc7a00;
+    color: rgb(0, 0, 0);
+}
+.btn-primary-release {
+    background-color: #ffc2b0;  
+    color: rgb(0, 0, 0);
+    border: 2px solid #000000;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary-release:hover {
+    background-color: #e97f99;
+    color: rgb(0, 0, 0);
+}
+.btn-primary-add {
+    background-color: #32c4e9; 
+    color: rgb(0, 0, 0);
+    border: 2px solid #ee7f00;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary-add:hover {
+    background-color: #00c3ff;
+    border: 2px solid #ee7f00;
+    color: #000000;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.display-6 {
+    font-weight: 700;
+}
